@@ -1,7 +1,5 @@
 """Sanity test: axibem disk capacitance vs Kelvin closed form."""
 
-import math
-
 from axibem.disk import disk_capacitance, kelvin_disk_capacitance
 
 
