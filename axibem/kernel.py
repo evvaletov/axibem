@@ -1,17 +1,8 @@
 """Axisymmetric free-space electrostatic kernel.
 
 The rotationally-integrated Green's function for a ring of unit linear charge
-density at `(r_s, z_s)` evaluated at the field point `(r, z)` is
-
-    G(r, z; r_s, z_s) = (1 / (pi * eps0)) * r_s * K(m) / sqrt((r + r_s)^2 + (z - z_s)^2)
-
-where `K` is the complete elliptic integral of the first kind and the modulus
-parameter is
-
-    m = 4 r r_s / ((r + r_s)^2 + (z - z_s)^2),    m in [0, 1).
-
-`scipy.special.ellipk` uses the *parameter* convention `m = k^2`, NOT the
-*modulus* convention `k`. Mixing the two silently produces wrong potentials.
+density at `(r_s, z_s)` evaluated at the field point `(r, z)` is expressible
+in terms of the complete elliptic integral of the first kind.
 """
 
 import numpy as np
@@ -37,7 +28,6 @@ def ring_potential_kernel(r, z, r_s, z_s):
 
     dz = z - z_s
     rad_sum_sq = (r + r_s) ** 2 + dz ** 2
-    # m = k^2 is the parameter convention used by scipy.special.ellipk.
     m = 4.0 * r * r_s / np.maximum(rad_sum_sq, 1e-300)
     m = np.clip(m, 0.0, 1.0 - 1e-15)
 
